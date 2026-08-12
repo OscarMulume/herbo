@@ -56,9 +56,11 @@ jobs:
       - name: Build (export statique)
         run: npm run build
         env:
-          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
-          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
-          NEXT_PUBLIC_PAYMENT_CALLBACK_URL: ${{ secrets.NEXT_PUBLIC_PAYMENT_CALLBACK_URL }}
+          # Secrets GitHub recommandés ; fallback intégré car la clé
+          # sb_publishable_ est publique par conception (protégée par RLS).
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL || 'https://nuxsvxcoybvtubhrhmal.supabase.co' }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'sb_publishable_dnvmKsGuCYOedMFQU4BEfQ_D_Gwk10R' }}
+          NEXT_PUBLIC_PAYMENT_CALLBACK_URL: ${{ secrets.NEXT_PUBLIC_PAYMENT_CALLBACK_URL || 'https://oscarmulume.github.io/herbo/checkout/confirm' }}
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
