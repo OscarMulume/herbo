@@ -1,0 +1,23 @@
+# ==============================================================================
+# Configuration Supabase CLI (base de données + Edge Functions).
+# ==============================================================================
+project_id = "remedes-naturels"
+
+# ------------------------------------------------------------------------------
+# Edge Function : create_payment_intent
+#   * verify_jwt = true  => la passerelle rejette toute invocation sans JWT valide.
+#   * Une seconde vérification d'identité (supabase.auth.getUser) est faite dans
+#     le code pour garantir que l'utilisateur possède bien le panier soumis.
+# ------------------------------------------------------------------------------
+[functions.create_payment_intent]
+verify_jwt = true
+
+# ------------------------------------------------------------------------------
+# Edge Function : payment_webhook
+#   * verify_jwt = false : l'agrégateur de paiement n'envoie AUCUN JWT.
+#   * L'authenticité des requêtes est garantie par la vérification cryptographique
+#     de la signature HMAC (en-tête x-aggregator-signature) réalisée DANS le code,
+#     et NON par la passerelle JWT.
+# ------------------------------------------------------------------------------
+[functions.payment_webhook]
+verify_jwt = false

@@ -1,0 +1,41 @@
+/* =============================================================================
+ * app/dashboard/dashboard.css — Styles Tailwind du Dashboard
+ * -----------------------------------------------------------------------------
+ * On injecte UNIQUEMENT les utilitaires Tailwind (pas de preflight global) afin
+ * de ne pas écraser le CSS custom du storefront (globals.css). Les utilitaires
+ * n'affectent que les éléments qui les portent.
+ * ========================================================================== */
+
+@tailwind utilities;
+
+/* Petites règles locales propres au dashboard (layout de la sidebar). */
+.dash-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  min-height: calc(100vh - 61px);
+}
+
+@media (min-width: 768px) {
+  .dash-layout {
+    grid-template-columns: 240px 1fr;
+  }
+}
+
+.dash-sidebar {
+  border-right: 1px solid #e5e7eb;
+  background: #ffffff;
+}
+
+.dark .dash-sidebar {
+  border-right-color: #374151;
+  background: #1e293b;
+}
+
+@media (min-width: 768px) {
+  .dash-sidebar {
+    position: sticky;
+    top: 61px;
+    height: calc(100vh - 61px);
+    overflow-y: auto;
+  }
+}

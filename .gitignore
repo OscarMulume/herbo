@@ -1,0 +1,44 @@
+# Dépendances
+/node_modules
+/.pnp
+
+# Build Next.js
+/.next/
+/out/
+
+# Tests
+/coverage
+
+# Environnement (connexions & secrets) — JAMAIS versionner
+.env
+.env.local
+.env*.local
+
+# Supabase CLI
+supabase/.branches
+supabase/.temp
+
+# Journalisation
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Tests / qualité
+/test-results/
+/playwright-report/
+/blob-report/
+/coverage/
+
+# Système / éditeurs
+.DS_Store
+*.pem
+Thumbs.db
+
+# Types générés
+next-env.d.ts
+
+# Artefacts locaux
+nginx-serve.log
+npx-serve.log
+tsconfig.tsbuildinfo
+*.tsbuildinfo

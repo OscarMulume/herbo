@@ -1,0 +1,682 @@
+/* =============================================================================
+ * styles globaux — approche mobile-first (interface prioritairement mobile)
+ * Feuille volontairement autoportante (pas de framework CSS imposé) pour
+ * rester portable et facile à migrer.
+ * ========================================================================== */
+
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --color-primary: #16a34a;        /* vert santé */
+  --color-primary-dark: #15803d;
+  --color-danger: #e11d48;
+  --color-text: #1f2937;
+  --color-muted: #6b7280;
+  --color-border: #e5e7eb;
+  --color-bg: #f9fafb;
+  --color-surface: #ffffff;
+  --radius: 12px;
+  --shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+/* ---------- Thème sombre (classe .dark posée par next-themes) ---------- */
+.dark {
+  --color-primary: #22c55e;
+  --color-primary-dark: #4ade80;
+  --color-danger: #fb7185;
+  --color-text: #e5e7eb;
+  --color-muted: #9ca3af;
+  --color-border: #374151;
+  --color-bg: #0f172a;
+  --color-surface: #1e293b;
+  --shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.dark html,
+html.dark body {
+  color: var(--color-text);
+  background: var(--color-bg);
+}
+
+/* Champs de formulaire : fond sombre lisible en mode nuit. */
+.dark .field input,
+.dark .field select,
+.dark .field textarea {
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+
+.dark .field input::placeholder,
+.dark .field textarea::placeholder {
+  color: var(--color-muted);
+}
+
+/* Panier & options de paiement. */
+.dark .cart-quantity button,
+.dark .payment-option {
+  background: var(--color-surface);
+  border-color: var(--color-border);
+  color: var(--color-text);
+}
+
+.dark .payment-option.active {
+  border-color: var(--color-primary);
+  background: rgba(34, 197, 94, 0.12);
+}
+
+.dark .cart-row {
+  border-color: var(--color-border);
+}
+
+/* Navigation. */
+.dark .site-link:hover {
+  background: #1e293b;
+  color: var(--color-primary-dark);
+}
+
+.dark .site-link.active {
+  background: rgba(34, 197, 94, 0.14);
+  color: var(--color-primary-dark);
+}
+
+/* Placeholder produit & skeleton. */
+.dark .product-media,
+.dark .product-img.placeholder {
+  background: linear-gradient(135deg, #1e293b, #243349);
+}
+
+/* Retours d'état. */
+.dark .success-banner {
+  background: rgba(34, 197, 94, 0.14);
+  color: #86efac;
+  border-color: #14532d;
+}
+
+.dark .banner,
+.dark .field-error {
+  background: rgba(225, 29, 72, 0.12);
+  color: #fda4af;
+  border-color: #881337;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  color: var(--color-text);
+  background: var(--color-bg);
+  line-height: 1.5;
+}
+
+/* ---------- Structure des pages ---------- */
+.page {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+.home {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 24px 16px;
+}
+
+.hero h1 {
+  font-size: 1.6rem;
+  margin: 0 0 8px;
+}
+
+.hero-sub {
+  color: var(--color-muted);
+  margin: 0 0 20px;
+}
+
+/* ---------- Formulaires de checkout ---------- */
+.checkout h1 {
+  font-size: 1.4rem;
+  margin: 0 0 16px;
+}
+
+.checkout h2 {
+  font-size: 1.05rem;
+  margin: 0 0 12px;
+}
+
+.panel {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin-bottom: 16px;
+  box-shadow: var(--shadow);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 12px;
+}
+
+.field > span {
+  font-size: 0.85rem;
+  color: var(--color-muted);
+}
+
+.field input,
+.field select,
+.field textarea {
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 1rem;
+  width: 100%;
+  color: var(--color-text);
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 1px;
+  border-color: var(--color-primary);
+}
+
+.hint {
+  color: var(--color-muted);
+  font-size: 0.85rem;
+  margin: 6px 0;
+}
+
+/* ---------- Panier ---------- */
+.cart-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 8px;
+}
+
+.cart-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.cart-name {
+  flex: 1;
+  font-size: 0.95rem;
+}
+
+.cart-quantity {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cart-quantity button {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  cursor: pointer;
+}
+
+.cart-price {
+  min-width: 70px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.cart-total {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 600;
+  margin-top: 12px;
+}
+
+/* ---------- Localisation / carte ---------- */
+.location-picker {
+  margin-bottom: 12px;
+}
+
+.location-picker .map {
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  margin: 8px 0;
+}
+
+.map-canvas {
+  height: 260px;
+  width: 100%;
+}
+
+.map-loading {
+  color: var(--color-muted);
+  font-size: 0.9rem;
+  padding: 16px 0;
+}
+
+.coords-fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.coords-fields label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.85rem;
+  color: var(--color-muted);
+}
+
+/* ---------- Options de paiement ---------- */
+.payment-options {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.payment-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  cursor: pointer;
+  background: var(--color-surface);
+}
+
+.payment-option.active {
+  border-color: var(--color-primary);
+  background: #f0fdf4;
+}
+
+.payment-label {
+  font-weight: 600;
+}
+
+.payment-hint {
+  color: var(--color-muted);
+  font-size: 0.82rem;
+  flex: 1;
+  text-align: right;
+}
+
+/* ---------- Retour d'état / erreurs ---------- */
+.banner,
+.field-error {
+  background: #fef2f2;
+  color: #b91c1c;
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 0.9rem;
+}
+
+.success-banner {
+  background: #f0fdf4;
+  color: #166534;
+  border: 1px solid #bbf7d0;
+  border-radius: var(--radius);
+  padding: 16px;
+  margin-bottom: 12px;
+}
+
+.success-banner h1 {
+  margin: 0 0 8px;
+}
+
+.summary-grid {
+  display: grid;
+  gap: 8px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 16px;
+}
+
+.summary-grid div {
+  display: flex;
+  justify-content: space-between;
+}
+
+.summary-grid dt {
+  color: var(--color-muted);
+}
+
+.summary-grid dd {
+  margin: 0;
+  font-weight: 600;
+}
+
+/* ---------- Boutons génériques ---------- */
+.btn {
+  display: inline-block;
+  padding: 12px 16px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  font-size: 1rem;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  background: var(--color-primary);
+  color: #fff;
+  width: 100%;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: var(--color-primary-dark);
+}
+
+.btn-secondary {
+  background: var(--color-surface);
+  border-color: var(--color-border);
+  color: var(--color-text);
+}
+
+/* =============================================================================
+ * STOREFRONT — topbar, bouton panier, catalogue, cartes produits
+ * ========================================================================== */
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+/* ---------- Navigation globale ---------- */
+.site-header {
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  box-shadow: var(--shadow);
+}
+
+.site-nav {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.site-menu {
+  list-style: none;
+  display: flex;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  flex: 1;
+  min-width: 0;
+  /* Sur mobile, le menu défile horizontalement au lieu de pousser le panier
+     hors de l'écran (barre de défilement masquée). */
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.site-menu::-webkit-scrollbar {
+  display: none;
+}
+
+.site-link {
+  display: inline-block;
+  padding: 6px 10px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.site-link:hover {
+  background: #f3f4f6;
+  color: var(--color-primary-dark);
+}
+
+.site-link.active {
+  background: #f0fdf4;
+  color: var(--color-primary-dark);
+  font-weight: 600;
+}
+
+@media (max-width: 480px) {
+  .site-link {
+    font-size: 0.82rem;
+    padding: 6px 8px;
+  }
+
+  /* Le panier reste toujours visible : on serre brand + panier et on laisse le
+     menu central défiler. */
+  .site-nav {
+    gap: 8px;
+    padding: 10px 12px;
+  }
+
+  .brand {
+    font-size: 1rem;
+  }
+
+  .btn-cart {
+    padding: 6px 10px;
+    font-size: 0.85rem;
+    white-space: nowrap;
+  }
+}
+
+.brand {
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--color-primary-dark);
+}
+
+.btn-cart {
+  background: var(--color-surface);
+  border-color: var(--color-border);
+  color: var(--color-text);
+  padding: 8px 14px;
+  font-size: 0.9rem;
+}
+
+.btn-cart:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary-dark);
+}
+
+/* ---------- Interrupteur de thème (Soleil / Lune) ---------- */
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-size: 1rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+
+.theme-toggle:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary-dark);
+}
+
+.theme-toggle-blank {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+}
+
+.catalog {
+  margin-top: 20px;
+}
+
+.catalog h2 {
+  margin: 0 0 12px;
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+}
+
+@media (min-width: 640px) {
+  .product-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.product-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+}
+
+.product-media {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  background: #eef2f2;
+}
+
+.product-img {
+  object-fit: cover;
+}
+
+.product-img.placeholder {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #eef2e6, #dbe7f0);
+}
+
+.product-body {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 10px 12px 12px;
+  flex: 1;
+}
+
+.product-category {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-primary-dark);
+}
+
+.product-name {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.25;
+}
+
+.product-desc {
+  margin: 0;
+  font-size: 0.82rem;
+  color: var(--color-muted);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.product-footer {
+  margin-top: auto;
+  padding-top: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.product-price {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.btn-add {
+  background: var(--color-primary);
+  color: #fff;
+  padding: 8px 12px;
+  font-size: 0.85rem;
+}
+
+.btn-add:hover:not(:disabled) {
+  background: var(--color-primary-dark);
+}
+
+.btn-add.added {
+  background: var(--color-primary-dark);
+  cursor: default;
+}
+
+/* =============================================================================
+ * SKELETONS — retours visuels de chargement
+ * ========================================================================== */
+
+.skeleton {
+  background: linear-gradient(90deg, #e5e7eb 25%, #f3f4f6 37%, #e5e7eb 63%);
+  background-size: 400% 100%;
+  animation: shimmer 1.4s ease infinite;
+  border-radius: 6px;
+}
+
+@keyframes shimmer {
+  0% { background-position: 100% 0; }
+  100% { background-position: -100% 0; }
+}
+
+.line-skeleton {
+  height: 12px;
+  width: 100%;
+}
+
+.line-skeleton.short {
+  width: 45%;
+}
+
+.btn-skeleton {
+  height: 32px;
+  width: 96px;
+}
+
+.field-skeleton {
+  height: 42px;
+}
+
+.product-img-skeleton {
+  width: 100%;
+  height: 100%;
+  border-radius: 0;
+}

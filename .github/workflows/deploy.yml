@@ -1,0 +1,80 @@
+# ==============================================================================
+# CI/CD — Déploiement GitHub Pages (export statique Next.js)
+# ------------------------------------------------------------------------------
+# Déclenchement : sur chaque push vers `main` (ou déclenchement manuel).
+# Étapes :
+#   1. Installer les dépendances.
+#   2. Compiler l'export statique (`next build` -> dossier `out/`).
+#   3. Publier via l'artefact GitHub Pages (actions/upload-pages-artifact).
+#   4. Déployer avec actions/deploy-pages (nécessite Pages activé sur le dépôt,
+#      source "GitHub Actions").
+#
+# Secrets requis dans le dépôt :
+#   * NEXT_PUBLIC_SUPABASE_URL
+#   * NEXT_PUBLIC_SUPABASE_ANON_KEY
+#   * NEXT_PUBLIC_PAYMENT_CALLBACK_URL (optionnel)
+# ==============================================================================
+
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Build (export statique)
+        run: npm run build
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+          NEXT_PUBLIC_PAYMENT_CALLBACK_URL: ${{ secrets.NEXT_PUBLIC_PAYMENT_CALLBACK_URL }}
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./out
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
