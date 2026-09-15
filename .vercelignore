@@ -1,0 +1,11 @@
+.git
+backups
+scripts
+docs
+*.md
+.env
+.env.local
+.env*.example
+tests
+node_modules
+.vercel
