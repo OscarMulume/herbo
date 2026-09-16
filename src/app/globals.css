@@ -680,3 +680,66 @@ body {
   height: 100%;
   border-radius: 0;
 }
+
+/* ---------- Pied de page ---------- */
+.site-footer {
+  border-top: 1px solid var(--color-border);
+  background: var(--color-surface);
+  margin-top: 40px;
+}
+
+.site-footer-inner {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 20px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: flex-start;
+}
+
+.site-footer-brand {
+  font-weight: 600;
+}
+
+.site-footer-credit {
+  color: var(--color-muted);
+  font-size: 0.85rem;
+  margin: 0;
+}
+
+.site-footer-nav {
+  display: flex;
+  gap: 12px;
+}
+
+/* ---------- Pages légales ---------- */
+.legal {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 24px 16px 40px;
+}
+
+.legal h1 {
+  font-size: 1.6rem;
+  margin-bottom: 4px;
+}
+
+.legal-updated {
+  color: var(--color-muted);
+  font-size: 0.85rem;
+  margin-top: 0;
+}
+
+.legal section {
+  margin-top: 24px;
+}
+
+.legal h2 {
+  font-size: 1.1rem;
+  margin-bottom: 8px;
+}
+
+.legal p {
+  line-height: 1.6;
+}

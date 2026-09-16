@@ -6,9 +6,10 @@ import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 import { Providers } from '@/components/providers';
 import { SiteNav } from '@/components/nav/SiteNav';
+import { SiteFooter } from '@/components/SiteFooter';
 import './globals.css';
 
-/** Métadonnées SEO globales du site. */
+/** Métadonnées SEO globales du site + PWA. */
 export const metadata: Metadata = {
   title: {
     default: 'Remèdes & Produits de santé naturels',
@@ -16,6 +17,10 @@ export const metadata: Metadata = {
   },
   description:
     'E-commerce de remèdes traditionnels, huiles essentielles et produits de santé artisanaux, avec livraison à domicile.',
+  manifest: '/herbo/manifest.webmanifest',
+  themeColor: '#16a34a',
+  viewport: 'width=device-width, initial-scale=1',
+  appleWebApp: { capable: true, statusBarStyle: 'default', title: 'Herbo' },
 };
 
 /**
@@ -30,7 +35,13 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <Providers>
           <SiteNav />
           {children}
+          <SiteFooter />
         </Providers>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `if('serviceWorker' in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('/herbo/sw.js')})}`,
+          }}
+        />
       </body>
     </html>
   );
