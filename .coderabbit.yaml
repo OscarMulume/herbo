@@ -1,0 +1,30 @@
+# CodeRabbit - Revue automatisée Herbo
+early_access: false
+resolve_conversation_comments: true
+reviews:
+  profile: "chill"
+  request_changes_workflow: true
+  high_level_summary: true
+  poem: false
+  review_status: true
+  collapse_walkthrough: false
+  auto_review:
+    enabled: true
+    drafts: false
+    base: main
+  path_instructions:
+    - path: "**/*.ts"
+      instructions: |
+        Next.js / TypeScript. Vérifiez :
+        - Pas de clé API en dur
+        - Types corrects (pas de any)
+        - Server Components vs Client Components appropriés
+    - path: "**/*.tsx"
+      instructions: |
+        Composants React. Accessibilité WCAG 2.1 AA requise.
+        Pas de secrets exposés dans les props côté client.
+chat:
+  auto_reply: true
+tools:
+  eslint:
+    enabled: true
