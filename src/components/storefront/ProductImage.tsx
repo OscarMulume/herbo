@@ -37,7 +37,13 @@ export function ProductImage({ src, alt, priority = false }: ProductImageProps) 
   if (!url) {
     return (
       <div className="product-media">
-        <div className="product-img placeholder" role="img" aria-label={alt} />
+        <div className="product-img placeholder" role="img" aria-label={`${alt} (photo à venir)`}>
+          <svg viewBox="0 0 120 80" aria-hidden="true" focusable="false">
+            <path d="M30 70c0-26 18-44 54-48-4 34-22 52-50 52" fill="currentColor" opacity=".85" />
+            <path d="M30 70c10-14 22-24 38-32" stroke="var(--herbo-sand)" strokeWidth="3" fill="none" strokeLinecap="round" />
+            <circle cx="92" cy="18" r="7" fill="var(--herbo-sun)" opacity=".9" />
+          </svg>
+        </div>
       </div>
     );
   }

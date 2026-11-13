@@ -37,7 +37,7 @@ export function ProductCard({ product, priority = false }: ProductCardProps) {
 
         <div className="product-footer">
           <span className="product-price">{formatMoney(product.price)}</span>
-          <AddToCartButton productId={product.id} stock={product.stockQuantity} />
+          <AddToCartButton productId={product.id} productName={product.name} stock={product.stockQuantity} />
         </div>
       </div>
     </article>

@@ -29,6 +29,9 @@ export function SiteFooter() {
           <Link href="/mentions-legales" className="site-link">
             Mentions légales
           </Link>
+          <Link href="/dashboard" className="site-link site-link-quiet">
+            Espace vendeur
+          </Link>
         </nav>
       </div>
     </footer>

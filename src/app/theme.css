@@ -1,0 +1,213 @@
+/* =============================================================================
+ * theme.css — Identité visuelle Herbo (13/11/2026)
+ * Ambiance : nature, plage, détente. Grille de 8 px, contrastes AA vérifiés,
+ * animations douces coupées si « réduire les animations » est activé.
+ * Chargée APRÈS globals.css : elle redéfinit les jetons et affine les composants.
+ * ========================================================================== */
+
+:root {
+  --herbo-leaf: #1f7a4d;        /* vert feuille : boutons, liens (AA sur blanc : 5,4:1) */
+  --herbo-leaf-deep: #0f3d2a;   /* vert profond : titres */
+  --herbo-sand: #f6efe3;        /* sable : fonds doux */
+  --herbo-sun: #f2a65a;         /* coucher de soleil : touches chaudes (décoratif) */
+  --herbo-ink: #1c2421;
+
+  --color-primary: var(--herbo-leaf);
+  --color-primary-dark: #17603c;
+  --color-text: var(--herbo-ink);
+  --color-muted: #5b6660;
+  --color-border: #e6e1d6;
+  --color-bg: #fbf9f5;
+  --color-surface: #ffffff;
+  --radius: 16px;
+  --radius-sm: 10px;
+  --shadow: 0 1px 2px rgba(15, 61, 42, 0.06), 0 8px 24px rgba(15, 61, 42, 0.06);
+  --shadow-lift: 0 2px 4px rgba(15, 61, 42, 0.08), 0 16px 40px rgba(15, 61, 42, 0.12);
+  --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --font: ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+.dark {
+  --herbo-sand: #2a2f2b;
+  --color-primary: #4cc28a;
+  --color-primary-dark: #74d6a6;
+  --color-text: #eef2ef;
+  --color-muted: #a8b3ad;
+  --color-border: #2f3a34;
+  --color-bg: #111714;
+  --color-surface: #18201c;
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 8px 24px rgba(0, 0, 0, 0.35);
+  --shadow-lift: 0 2px 4px rgba(0, 0, 0, 0.5), 0 16px 40px rgba(0, 0, 0, 0.45);
+}
+
+body {
+  font-family: var(--font);
+  background: var(--color-bg);
+  color: var(--color-text);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-primary);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+/* ---------- En-tête flottant translucide ---------- */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: color-mix(in srgb, var(--color-bg) 78%, transparent);
+  -webkit-backdrop-filter: saturate(1.4) blur(14px);
+  backdrop-filter: saturate(1.4) blur(14px);
+  border-bottom: 1px solid color-mix(in srgb, var(--color-border) 70%, transparent);
+}
+@media (prefers-reduced-transparency: reduce) {
+  .site-header { background: var(--color-bg); -webkit-backdrop-filter: none; backdrop-filter: none; }
+}
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 800;
+  font-size: 1.25rem;
+  letter-spacing: -0.02em;
+  color: var(--herbo-leaf);
+  text-decoration: none;
+  min-height: 44px;
+}
+.dark .brand { color: var(--color-primary); }
+.brand-leaf { width: 26px; height: 26px; }
+.site-link-quiet { opacity: 0.75; }
+/* Petit écran : le panier suffit, les liens texte ne doivent pas être coupés */
+@media (max-width: 480px) { .site-menu { display: none; } }
+
+.btn-cart { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; }
+.cart-count {
+  display: inline-grid;
+  place-items: center;
+  min-width: 24px;
+  height: 24px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: var(--color-border);
+  color: var(--color-text);
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+.cart-count.has-items { background: var(--herbo-leaf); color: #fff; animation: herbo-pop 420ms var(--ease); }
+
+/* ---------- Boutons : retour au toucher ---------- */
+.btn { transition: transform 160ms var(--ease), box-shadow 200ms var(--ease), background-color 200ms var(--ease); }
+.btn:active:not(:disabled) { transform: scale(0.97); }
+.btn-primary { box-shadow: 0 6px 18px color-mix(in srgb, var(--herbo-leaf) 30%, transparent); }
+.btn-lg { min-height: 52px; padding: 0 24px; font-size: 1.05rem; border-radius: 999px; display: inline-flex; align-items: center; text-decoration: none; }
+.btn-ghost {
+  background: transparent;
+  color: var(--color-text);
+  border: 1.5px solid var(--color-border);
+}
+.btn-ghost:hover { border-color: var(--color-primary); color: var(--color-primary); }
+.btn-add { min-height: 44px; border-radius: 999px; display: inline-flex; align-items: center; gap: 6px; }
+.btn-add.added { background: var(--herbo-leaf-deep); color: #fff; }
+.btn-check { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 24; stroke-dashoffset: 24; animation: herbo-draw 360ms var(--ease) forwards; }
+
+/* ---------- Accueil : lumière de fin de journée, mouvement très lent ---------- */
+.hero {
+  position: relative;
+  overflow: hidden;
+  border-radius: 0 0 32px 32px;
+  padding: 56px 20px 48px;
+  background: linear-gradient(160deg, var(--herbo-sand) 0%, color-mix(in srgb, var(--herbo-sand) 60%, var(--color-bg)) 100%);
+  text-align: left;
+}
+.hero-glow {
+  position: absolute;
+  inset: -40% -20% auto auto;
+  width: 520px;
+  height: 520px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, color-mix(in srgb, var(--herbo-sun) 55%, transparent), transparent 60%),
+    radial-gradient(circle at 70% 70%, color-mix(in srgb, var(--herbo-leaf) 35%, transparent), transparent 62%);
+  filter: blur(8px);
+  animation: herbo-drift 18s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+.hero-inner { position: relative; max-width: 720px; margin: 0 auto; }
+.hero-eyebrow { margin: 0 0 8px; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-primary); }
+.hero h1 { margin: 0 0 16px; font-size: clamp(2rem, 7vw, 3.2rem); line-height: 1.08; letter-spacing: -0.03em; color: var(--herbo-leaf-deep); }
+.dark .hero h1 { color: var(--color-text); }
+.hero-sub { margin: 0 0 24px; font-size: 1.1rem; line-height: 1.6; color: var(--color-muted); max-width: 56ch; }
+.hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 24px; }
+.hero-actions .btn { width: auto; flex: 0 0 auto; justify-content: center; }
+@media (max-width: 420px) { .hero-actions .btn { flex: 1 1 100%; } }
+.trust-chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.trust-chips li {
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--color-surface) 80%, transparent);
+  border: 1px solid var(--color-border);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+/* ---------- Catalogue ---------- */
+.catalog { max-width: 1120px; margin: 0 auto; padding: 40px 20px 64px; }
+.catalog h2 { font-size: clamp(1.5rem, 4.5vw, 2rem); letter-spacing: -0.02em; margin: 0 0 16px; scroll-margin-top: 88px; }
+.notice { border: 1px solid var(--color-border); background: var(--color-surface); border-left: 4px solid var(--herbo-sun); }
+.product-grid { gap: 20px; }
+.product-card {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-surface);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  transition: transform 240ms var(--ease), box-shadow 240ms var(--ease);
+}
+@media (hover: hover) {
+  .product-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lift); }
+}
+.product-img.placeholder {
+  display: grid;
+  place-items: center;
+  color: var(--herbo-leaf);
+  background: radial-gradient(circle at 75% 20%, color-mix(in srgb, var(--herbo-sun) 30%, transparent), transparent 45%),
+    linear-gradient(150deg, var(--herbo-sand), color-mix(in srgb, var(--herbo-leaf) 14%, var(--herbo-sand)));
+}
+.product-img.placeholder svg { width: 46%; max-width: 160px; }
+.product-category { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-primary); }
+.product-name { letter-spacing: -0.01em; }
+.product-price { font-size: 1.25rem; font-weight: 800; color: var(--herbo-leaf-deep); }
+.dark .product-price { color: var(--color-text); }
+
+/* ---------- Pied de page ---------- */
+.site-footer { border-top: 1px solid var(--color-border); background: var(--herbo-sand); }
+
+/* ---------- Animations ---------- */
+@keyframes herbo-drift { from { transform: translate3d(0, 0, 0) scale(1); } to { transform: translate3d(-60px, 40px, 0) scale(1.12); } }
+@keyframes herbo-pop { 0% { transform: scale(1); } 40% { transform: scale(1.35); } 100% { transform: scale(1); } }
+@keyframes herbo-draw { to { stroke-dashoffset: 0; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-glow, .cart-count.has-items, .btn-check { animation: none !important; }
+  .btn-check { stroke-dashoffset: 0; }
+  .btn, .product-card { transition: none; }
+}
+
+@media (min-width: 768px) {
+  .hero { padding: 88px 32px 72px; border-radius: 0 0 48px 48px; }
+}
+
+/* ---------- Correctifs mobile et contraste (contrôle visuel du 13/11) ---------- */
+.product-footer { display: flex; flex-direction: column; align-items: stretch; gap: 12px; }
+.product-footer .btn-add { width: 100%; justify-content: center; white-space: nowrap; }
+@media (min-width: 900px) {
+  .product-footer { flex-direction: row; align-items: center; justify-content: space-between; }
+  .product-footer .btn-add { width: auto; padding: 0 18px; }
+}
+/* Mode sombre : texte foncé sur le vert clair (contraste AA) */
+.dark .btn-primary,
+.dark .btn-add { color: #0b1f15; }
+.dark .btn-add.added { color: #fff; }

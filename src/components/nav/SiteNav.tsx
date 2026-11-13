@@ -22,7 +22,6 @@ interface NavLink {
 /** Liens principaux du site (les routes correspondent aux pages statiques). */
 const LINKS: NavLink[] = [
   { href: '/', label: 'Boutique' },
-  { href: '/dashboard', label: 'Dashboard' },
   { href: '/checkout', label: 'Commande' },
 ];
 
@@ -54,7 +53,13 @@ export function SiteNav() {
   return (
     <header className="site-header">
       <nav className="site-nav" aria-label="Navigation principale">
-        <span className="brand">HerboShop</span>
+        <Link href="/" className="brand" aria-label="Herbo, accueil de la boutique">
+          <svg className="brand-leaf" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M5 19c0-8 5-13 15-14-1 10-6 15-14 15" fill="currentColor" opacity=".9" />
+            <path d="M5 19c3-4 6-7 10-9" stroke="var(--herbo-sand)" strokeWidth="1.6" fill="none" strokeLinecap="round" />
+          </svg>
+          <span>Herbo</span>
+        </Link>
         <ul className="site-menu">
           {LINKS.map((link) => (
             <li key={link.href}>

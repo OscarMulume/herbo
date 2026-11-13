@@ -15,6 +15,8 @@ import { useCart } from '@/components/cart/CartProvider';
 /** Props du composant. */
 export interface AddToCartButtonProps {
   productId: string;
+  /** Nom du produit (lu par les lecteurs d'écran). */
+  productName: string;
   /** Stock disponible (<= 0 => rupture). */
   stock: number;
 }
@@ -25,7 +27,7 @@ export interface AddToCartButtonProps {
  * @param {AddToCartButtonProps.productId} - Produit concerné.
  * @param {AddToCartButtonProps.stock}     - Stock restant.
  */
-export function AddToCartButton({ productId, stock }: AddToCartButtonProps) {
+export function AddToCartButton({ productId, productName, stock }: AddToCartButtonProps) {
   const { addToCart } = useCart();
   const [added, setAdded] = useState(false);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -53,9 +55,9 @@ export function AddToCartButton({ productId, stock }: AddToCartButtonProps) {
       className={`btn btn-add${added ? ' added' : ''}`}
       onClick={handleAdd}
       disabled={outOfStock}
-      aria-label={outOfStock ? `Produit ${productId} : en rupture de stock` : `Ajouter au panier le produit ${productId}`}
+      aria-label={outOfStock ? `${productName} : en rupture de stock` : added ? `${productName} ajouté au panier` : `Ajouter ${productName} au panier`}
     >
-      {outOfStock ? 'Rupture' : added ? 'Ajouté ✓' : 'Ajouter au panier'}
+      {outOfStock ? 'Rupture' : added ? (<><svg className="btn-check" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7" /></svg> Ajouté</>) : 'Ajouter au panier'}
     </button>
   );
 }

@@ -21,7 +21,8 @@ export function CartLink() {
 
   return (
     <Link href="/checkout" className="btn btn-cart" aria-label={`Voir mon panier (${count} article(s))`}>
-      Panier ({count})
+      <span aria-hidden="true">Panier</span>
+      <span key={count} className={`cart-count${count > 0 ? ' has-items' : ''}`} aria-hidden="true">{count}</span>
     </Link>
   );
 }

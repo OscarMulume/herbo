@@ -52,11 +52,25 @@ export default function HomePage() {
 
   return (
     <main className="home">
-      <section className="hero">
-        <h1>Remèdes traditionnels &amp; produits de santé artisanaux</h1>
-        <p className="hero-sub">
-          Commandez et faites-vous livrer à domicile par votre réseau de livreurs.
-        </p>
+      <section className="hero" aria-labelledby="hero-title">
+        <div className="hero-glow" aria-hidden="true" />
+        <div className="hero-inner">
+          <p className="hero-eyebrow">Herbo · produits naturels</p>
+          <h1 id="hero-title">Le naturel, sans vous presser.</h1>
+          <p className="hero-sub">
+            Remèdes traditionnels, plantes et huiles artisanales. Choisissez tranquillement, commandez en quelques
+            secondes, on vous livre à la maison.
+          </p>
+          <div className="hero-actions">
+            <a href="#catalog-title" className="btn btn-primary btn-lg">Voir le catalogue</a>
+            <a href="/herbo/checkout/" className="btn btn-ghost btn-lg">Mon panier</a>
+          </div>
+          <ul className="trust-chips" aria-label="Nos engagements">
+            <li>Commande par WhatsApp</li>
+            <li>M-Pesa · Airtel · Orange · Afrimoney</li>
+            <li>Paiement à la livraison possible</li>
+          </ul>
+        </div>
       </section>
 
       <section className="catalog" aria-labelledby="catalog-title">
