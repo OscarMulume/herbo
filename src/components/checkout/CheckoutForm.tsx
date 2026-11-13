@@ -22,20 +22,21 @@ import { toFriendlyMessage } from '@/lib/utils/errors';
 import { formatMoney } from '@/lib/utils/formatters';
 import { createBrowserClient } from '@/lib/supabase/client';
 import { getActiveDeliveryZones } from '@/services/data/delivery-zone.repository';
-import { getActiveProducts } from '@/services/data/product.repository';
+import { loadCatalog, type CatalogSource } from '@/services/catalog.service';
 import { initiatePayment, type PaymentIntentResult } from '@/services/checkout.service';
 import { checkoutFormSchema } from '@/lib/validation/schemas';
 import { useCart } from '@/components/cart/CartProvider';
 import { Skeleton } from '@/components/ui/Skeleton';
 import type { DeliveryZone, GeolocationPoint, PaymentMethod, Product } from '@/types';
 import { LocationPicker } from './LocationPicker';
+import { WhatsAppOrderForm } from './WhatsAppOrderForm';
 
 /** Props du composant (aucune dépendance serveur : tout est chargé côté client). */
 export interface CheckoutFormProps {}
 
 /** Options de paiement proposées à l'utilisateur. */
 const PAYMENT_OPTIONS: { value: PaymentMethod; label: string; hint: string }[] = [
-  { value: 'mobile_money', label: 'Mobile Money', hint: 'MTN MoMo / Moov Money / Orange Money' },
+  { value: 'mobile_money', label: 'Mobile Money', hint: 'M-Pesa / Airtel Money / Orange Money / Afrimoney' },
   { value: 'card', label: 'Carte bancaire', hint: 'Visa / Mastercard' },
   { value: 'cash_on_delivery', label: 'Espèces à la livraison', hint: 'Paiement au livreur' },
 ];
@@ -54,6 +55,8 @@ export function CheckoutForm(_props: CheckoutFormProps) {
   const cart = useCart();
   // Produits actifs (chargés côté client, export statique oblige).
   const [products, setProducts] = useState<Product[]>([]);
+  // Source du catalogue : en ligne (commande normale) ou local (commande WhatsApp).
+  const [catalogSource, setCatalogSource] = useState<CatalogSource | null>(null);
   // Le panier : uniquement les produits présents dans le contexte.
   const cartLines = useMemo(
     () =>
@@ -90,8 +93,11 @@ export function CheckoutForm(_props: CheckoutFormProps) {
     let cancelled = false;
     (async () => {
       try {
-        const availableProducts = await getActiveProducts(createBrowserClient());
-        if (!cancelled) setProducts(availableProducts);
+        const catalog = await loadCatalog();
+        if (!cancelled) {
+          setProducts(catalog.products);
+          setCatalogSource(catalog.source);
+        }
       } catch (error) {
         clientLogger.error('checkoutForm.loadProducts', { error });
         if (!cancelled) setPreviousError(toFriendlyMessage(error));
@@ -181,6 +187,11 @@ export function CheckoutForm(_props: CheckoutFormProps) {
       setSubmitting(false);
     }
   };
+
+  // ---------- Mode hybride : base indisponible -> commande WhatsApp ----------
+  if (catalogSource === 'local') {
+    return <WhatsAppOrderForm lines={cartLines} total={itemsTotal} />;
+  }
 
   // ---------- Écran de confirmation (paiement initialisé) ----------
   if (paymentResult) {

@@ -743,3 +743,33 @@ body {
 .legal p {
   line-height: 1.6;
 }
+/* Bandeaux d'information (mode WhatsApp, catalogue d'exemples) : contraste AA, sans animation. */
+.notice {
+  margin: 0.75rem 0;
+  padding: 0.75rem 1rem;
+  border-radius: 0.75rem;
+  border: 1px solid currentColor;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+/* Formulaire de commande WhatsApp : un champ par ligne, cibles tactiles de 44 px. */
+.wa-form { display: grid; gap: 0.5rem; max-width: 36rem; margin-top: 1rem; }
+.wa-form label { font-weight: 600; margin-top: 0.5rem; }
+.wa-form input,
+.wa-form select,
+.wa-form textarea {
+  width: 100%;
+  min-height: 44px;
+  padding: 0.6rem 0.75rem;
+  border: 1px solid currentColor;
+  border-radius: 0.6rem;
+  font: inherit;
+  background: transparent;
+  color: inherit;
+}
+.wa-form textarea { min-height: 5rem; resize: vertical; }
+.wa-form .btn { min-height: 48px; margin-top: 0.75rem; }
+.wa-form input:focus-visible,
+.wa-form select:focus-visible,
+.wa-form textarea:focus-visible { outline: 3px solid #15803d; outline-offset: 2px; }

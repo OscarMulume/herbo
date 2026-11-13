@@ -10,8 +10,7 @@
 // ==============================================================================
 
 import { useEffect, useState } from 'react';
-import { createBrowserClient } from '@/lib/supabase/client';
-import { getActiveProducts } from '@/services/data/product.repository';
+import { loadCatalog } from '@/services/catalog.service';
 import { toFriendlyMessage } from '@/lib/utils/errors';
 import { ProductGrid, ProductGridSkeleton } from '@/components/storefront/ProductGrid';
 import type { Product } from '@/types';
@@ -25,14 +24,20 @@ export default function HomePage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [isDemo, setIsDemo] = useState(false);
+  const [offline, setOffline] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
 
     (async () => {
       try {
-        const list = await getActiveProducts(createBrowserClient());
-        if (!cancelled) setProducts(list);
+        const catalog = await loadCatalog();
+        if (!cancelled) {
+          setProducts(catalog.products);
+          setIsDemo(catalog.isDemo);
+          setOffline(catalog.source === 'local');
+        }
       } catch (err) {
         if (!cancelled) setError(toFriendlyMessage(err));
       } finally {
@@ -56,6 +61,16 @@ export default function HomePage() {
 
       <section className="catalog" aria-labelledby="catalog-title">
         <h2 id="catalog-title">Notre catalogue</h2>
+        {offline && (
+          <p className="notice" role="status">
+            Commande par WhatsApp : ajoutez vos articles au panier, puis validez ; WhatsApp s&apos;ouvre avec votre commande.
+          </p>
+        )}
+        {isDemo && (
+          <p className="notice" role="note">
+            Catalogue en préparation : les articles ci-dessous sont des exemples.
+          </p>
+        )}
         {error ? (
           <p className="field-error" role="alert">{error}</p>
         ) : loading ? (
