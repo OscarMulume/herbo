@@ -1,0 +1,42 @@
+# Audit des dépendances (chaîne d'approvisionnement) — chaque lundi et à la demande.
+# Utilise le skill .claude/skills/supply-chain-risk-auditor (Trail of Bits) : failles connues (OSV),
+# projets abandonnés, scripts d'installation, concentration des éditeurs npm. Les serveurs GitHub ont
+# accès à internet, contrairement à l'environnement cloud de Claude. Rapport : onglet Actions > artefact.
+name: Audit des dépendances
+
+on:
+  schedule:
+    - cron: '17 6 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Collecte et rapport par projet
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -u
+          mkdir -p audit
+          for p in .; do
+            name=$(echo "$p" | tr '/.' '__')
+            python3 .claude/skills/supply-chain-risk-auditor/scripts/collect.py "$p" --json "audit/$name.json" || echo "Collecte incomplète pour $p"
+            if [ -s "audit/$name.json" ]; then
+              python3 .claude/skills/supply-chain-risk-auditor/scripts/render.py "audit/$name.json" --out "audit/$name.md"
+              { echo "## Dépendances : $p"; cat "audit/$name.md"; echo; } >> "$GITHUB_STEP_SUMMARY"
+            fi
+          done
+      - uses: actions/upload-artifact@v4
+        with:
+          name: audit-dependances
+          path: audit/
+          retention-days: 30
