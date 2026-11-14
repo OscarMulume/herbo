@@ -23,7 +23,7 @@ export function SiteFooter() {
       <div className="site-footer-inner">
         <p className="site-footer-brand">Herbo · Remèdes &amp; produits de santé naturels</p>
         <p className="site-footer-credit">
-          © {COPYRIGHT_YEAR} {BRAND}. Tous droits réservés. Une solution M-SEC.
+          © {COPYRIGHT_YEAR} {BRAND}. Tous droits réservés.
         </p>
         <nav aria-label="Liens légaux" className="site-footer-nav">
           <Link href="/mentions-legales" className="site-link">
