@@ -2,7 +2,7 @@
 // app/mentions-legales/page.tsx — Mention légales
 // ------------------------------------------------------------------------------
 // Page statique (export GitHub Pages) : informations légales de la boutique
-// Herbo, éditées par Mulume Izuba Oscar. Structure sémantique accessible.
+// Herbo. Structure sémantique accessible.
 // ==============================================================================
 
 import type { Metadata } from 'next';
@@ -10,7 +10,7 @@ import type { Metadata } from 'next';
 /** Métadonnées SEO de la page. */
 export const metadata: Metadata = {
   title: 'Mentions légales',
-  description: "Informations légales du site Herbo, édité par Mulume Izuba Oscar.",
+  description: "Informations légales du site Herbo.",
 };
 
 /**
@@ -32,8 +32,8 @@ export default function MentionsLegalesPage() {
             santé naturels) est édité par :
           </p>
           <p>
-            <strong>Mulume Izuba Oscar</strong><br />
-            Développeur indépendant et éditeur de solutions logicielles.
+            <strong>Herbo</strong><br />
+            Boutique en ligne de remèdes traditionnels et produits de santé naturels.
           </p>
           <p>
             Contact : la demande doit être adressée via le formulaire de commande du site ou l&apos;adresse
@@ -54,7 +54,7 @@ export default function MentionsLegalesPage() {
           <h2>3. Propriété intellectuelle</h2>
           <p>
             L&apos;ensemble des éléments du site (structure, textes, interfaces, logo, code source,
-            photographies) est la propriété exclusive de <strong>Mulume Izuba Oscar</strong> ou de ses
+            photographies) est la propriété exclusive de <strong>Herbo</strong> ou de ses
             ayants droit. Toute reproduction, représentation ou exploitation, totale ou partielle, sans
             autorisation préalable écrite est interdite.
           </p>
